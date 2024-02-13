@@ -1,0 +1,19 @@
+// pre {
+//     overflow-x: auto;
+// }
+
+// code {
+//     display: block;
+//     white-space: pre-wrap; 
+// }
+
+pre {
+    overflow-x: auto;
+}
+
+code {
+    display: block;
+    font-size: 10px;
+    white-space: pre-wrap; /* Change to nowrap */
+    overflow-x: auto; /* Add overflow-x */
+}

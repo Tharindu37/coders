@@ -9,6 +9,9 @@ import { QuestionComponent } from './components/question/question.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment.development';
 import { AddComponent } from './components/question/components/add/add.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,9 @@ import { AddComponent } from './components/question/components/add/add.component
     DashboardComponent,
     QuestionComponent,
     AddComponent,
+    LoginComponent,
+    RegisterComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
