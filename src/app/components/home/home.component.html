@@ -1,63 +1,74 @@
 <app-nav-bar></app-nav-bar>
-<div class="flex w-full h-[91vh] mt-5 px-44 gap-5 bg-gradient-to-r">
+<div
+  class="flex w-full h-[95vh] flex-1 px-44 bg-gradient-to-r gap-5 from-green-50 via-green-100 to-green-100 border pt-5"
+>
   <div
-    class="flex-1 h-[80vh] flex flex-col rounded-md overflow-hidden shadow-md border"
+    class="flex-1 h-[80vh] flex flex-col rounded-md overflow-hidden shadow-md border bg-white"
   >
-    <div class="w-full h-32 border"></div>
-    <div class="self-center w-32 h-32 border rounded-full mt-[-80px]"></div>
-    <h1 class="self-center mt-5">Tharindu Lakshan</h1>
-    <p class="text-[11px] text-center">
-      Associate Software Engineer at Silverline IT | Mobile App
-      Developer(Android) | Community Developer | B.Sc. Physical Science – ICT
-      University of Sri Jayewardenepura | Youtube content creator
-    </p>
-  </div>
-  <div class="h-full flex-[2] flex flex-col p-1 gap-2">
-    <div class="flex items-center justify-center w-full shadow-md">
-      <h5>Add Question</h5>
+    <div class="flex w-full h-32 overflow-hidden border rounded-t-md">
+      <img
+        class="w-full"
+        src="https://marketplace.canva.com/EAE9QjX6rhA/1/0/1600w/canva-blue-pink-gradient-fashion-banner-cVzLo3B1IHE.jpg"
+        alt=""
+      />
     </div>
-    <div class="flex-1 w-full p-1 overflow-y-auto">
-      <div class="flex flex-col w-full h-auto mb-1 border rounded-md shadow-md">
-        <div class="flex items-center w-full gap-2 p-1">
-          <div class="w-10 h-10 border rounded-full"></div>
-          <h5>Tharindu Lakshan</h5>
-        </div>
-        <div class="flex flex-col gap-1 p-1">
-          <p class="mb-5 text-sm">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis sit,
-            ducimus eaque hic temporibus voluptate quod nihil facilis
-            reprehenderit fuga.
-          </p>
-          <div class="flex items-start gap-1">
-            <input type="radio" />
-            <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{ javaCodeSnippet }}</code>
-            </pre>
-          </div>
-          <div class="flex items-start gap-1">
-            <input type="radio" />
-            <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{ javaCodeSnippet }}</code>
-            </pre>
-          </div>
-          <div class="flex items-start gap-1">
-            <input type="radio" />
-            <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{ javaCodeSnippet }}</code>
-            </pre>
-          </div>
-          <div class="flex items-start gap-1">
-            <input type="radio" />
-            <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{ javaCodeSnippet }}</code>
-            </pre>
-          </div>
-        </div>
+    <div
+      class="self-center w-32 h-32 border rounded-full mt-[-80px] flex overflow-hidden bg-cover bg-center"
+      style="
+        background-image: url('https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg');
+      "
+    >
+      <!-- <img
+        class=""
+        src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
+        alt=""
+      /> -->
+    </div>
+    <div class="flex flex-col items-center px-5">
+      <h1 class="mt-5">
+        <h1 class="text-2xl font-bold">Tharindu Lakshan</h1>
+      </h1>
+      <p class="text-[11px] text-center">
+        Associate Software Engineer at Silverline IT | Mobile App
+        Developer(Android) | Community Developer | B.Sc. Physical Science – ICT
+        University of Sri Jayewardenepura | Youtube content creator
+      </p>
+    </div>
+  </div>
+  <!-- Generate Answer section -->
+  <div class="h-full flex-[2] flex flex-col p-1 gap-2">
+    <div class="flex w-full gap-3 p-5 bg-white rounded-md shadow-md">
+      <div
+        class="flex w-12 h-12 overflow-hidden bg-center bg-cover border rounded-full"
+        style="
+          background-image: url('https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg');
+        "
+      ></div>
+      <div class="flex flex-col w-full gap-3">
+        <textarea
+          placeholder="Type your question..."
+          class="w-full h-20 p-1 border focus:outline-none"
+        ></textarea>
+        <button
+          type="button"
+          class="self-end text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+        >
+          Generate Answer
+        </button>
       </div>
-
-      <div class="flex flex-col w-full h-auto mb-1 border rounded-md">
+    </div>
+    <!-- Post Section -->
+    <div class="flex-1 w-full p-1 overflow-y-auto">
+      <div
+        class="flex flex-col w-full h-auto p-5 mb-1 bg-white border rounded-md shadow-md"
+      >
         <div class="flex items-center w-full gap-2 p-1">
-          <div class="w-10 h-10 border rounded-full"></div>
+          <div
+            class="flex w-10 h-10 overflow-hidden bg-center bg-cover border rounded-full"
+            style="
+              background-image: url('https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg');
+            "
+          ></div>
           <h5>Tharindu Lakshan</h5>
         </div>
         <div class="flex flex-col gap-1 p-1">
@@ -95,6 +106,6 @@
     </div>
   </div>
   <div
-    class="flex-1 shadow-md border h-[80vh] flex flex-col rounded-md overflow-hidden"
+    class="flex-1 shadow-md border h-[80vh] flex flex-col rounded-md overflow-hidden bg-white"
   ></div>
 </div>
