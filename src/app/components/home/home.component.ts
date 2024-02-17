@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -19,4 +21,19 @@ export class HomeComponent {
       }
   }
     `;
+
+  constructor(private router: Router) {}
+
+  textAreaForm = new FormGroup({
+    question: new FormControl('', Validators.required),
+  });
+
+  addQuestion() {
+    const question = this.textAreaForm.get('question')?.value as string;
+
+    console.log(question);
+    this.router.navigate(['/question/add'], {
+      queryParams: { question: question },
+    });
+  }
 }

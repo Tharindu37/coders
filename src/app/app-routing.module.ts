@@ -7,11 +7,16 @@ import { AddComponent } from './components/question/components/add/add.component
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/components/login/login.component';
 import { RegisterComponent } from './components/user/components/register/register.component';
+import { authGuard } from './guard/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: '', redirectTo: 'user', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [authGuard],
+  },
   {
     path: 'user',
     component: UserComponent,
@@ -24,6 +29,7 @@ const routes: Routes = [
   {
     path: 'question',
     component: QuestionComponent,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'add', pathMatch: 'full' },
       { path: 'add', component: AddComponent },

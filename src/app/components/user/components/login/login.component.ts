@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 
@@ -9,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   loginFrom = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -20,15 +21,18 @@ export class LoginComponent {
     const password = this.loginFrom.get('password')?.value as string;
     try {
       const res = await this.authService.login(email, password);
+      this.router.navigate(['/home']);
       Swal.fire({
         title: 'Login Successful!',
         icon: 'success',
+        showConfirmButton: false,
       });
     } catch (error: any) {
       Swal.fire({
         title: 'Login Error!',
         text: error.message,
         icon: 'error',
+        showConfirmButton: false,
       });
     }
   }
