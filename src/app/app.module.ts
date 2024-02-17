@@ -9,9 +9,11 @@ import { QuestionComponent } from './components/question/question.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment.development';
 import { AddComponent } from './components/question/components/add/add.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/user/components/login/login.component';
+import { RegisterComponent } from './components/user/components/register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,14 +22,16 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     DashboardComponent,
     QuestionComponent,
     AddComponent,
+    NavBarComponent,
+    UserComponent,
     LoginComponent,
     RegisterComponent,
-    NavBarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

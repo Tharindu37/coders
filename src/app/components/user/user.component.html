@@ -1,0 +1,35 @@
+<app-nav-bar></app-nav-bar>
+<div
+  class="w-full px-44 h-[95vh] bg-gradient-to-r from-green-50 via-green-100 to-green-100 flex items-center justify-center"
+>
+  <div class="w-full h-2/3">
+    <div class="flex w-full h-full">
+      <div class="flex-[2] flex flex-col">
+        <h1 class="text-5xl font-bold">Coders.tech</h1>
+        <p class="mb-4 text-xl font-medium">
+          Coders.tech helps to improve your programming and logical thinking
+          knowledge.
+        </p>
+        <div class="flex w-full gap-5 mb-6">
+          <div
+            routerLink="login"
+            routerLinkActive="bg-green-500"
+            class="flex items-center justify-center w-1/3 h-12 border rounded-md"
+          >
+            Login
+          </div>
+          <div
+            routerLink="register"
+            routerLinkActive="bg-green-500"
+            class="flex items-center justify-center w-1/3 h-12 border rounded-md"
+          >
+            Register
+          </div>
+        </div>
+      </div>
+      <div class="flex-[1] pl-16 flex-col">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
