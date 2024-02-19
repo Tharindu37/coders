@@ -39,6 +39,8 @@ export class RegisterComponent {
         email: res.user?.email || '',
         emailVerified: res.user?.emailVerified || false,
         photoURL: res.user?.photoURL || '',
+        id: '',
+        discription: '',
       };
       const saveRes = await this.userService.saveUser(user);
       Swal.fire({

@@ -8,14 +8,14 @@
     <div class="flex w-full h-32 overflow-hidden border rounded-t-md">
       <img
         class="w-full"
-        src="https://marketplace.canva.com/EAE9QjX6rhA/1/0/1600w/canva-blue-pink-gradient-fashion-banner-cVzLo3B1IHE.jpg"
+        [src]="user?.bannerURL || '../../../assets/banner.jpg'"
         alt=""
       />
     </div>
     <div
       class="self-center w-32 h-32 border rounded-full mt-[-80px] flex overflow-hidden bg-cover bg-center"
-      style="
-        background-image: url('https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg');
+      [style.background-image]="
+        'url(' + (user?.photoURL || '../../../assets/profile.png') + ')'
       "
     >
       <!-- <img
@@ -26,12 +26,10 @@
     </div>
     <div class="flex flex-col items-center px-5">
       <h1 class="mt-5">
-        <h1 class="text-2xl font-bold">Tharindu Lakshan</h1>
+        <h1 class="text-2xl font-bold">{{ user?.displayName }}</h1>
       </h1>
       <p class="text-[11px] text-center">
-        Associate Software Engineer at Silverline IT | Mobile App
-        Developer(Android) | Community Developer | B.Sc. Physical Science – ICT
-        University of Sri Jayewardenepura | Youtube content creator
+        {{ user?.discription }}
       </p>
     </div>
   </div>

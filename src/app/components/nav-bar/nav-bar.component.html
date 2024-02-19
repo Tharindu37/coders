@@ -116,6 +116,12 @@
       />
     </svg>
 
-    <div class="border rounded-full w-7 h-7"></div>
+    <div
+      class="border rounded-full w-7 h-7"
+      style="overflow: hidden; background-size: contain"
+      [style.background-image]="
+        'url(' + (user?.photoURL || '../../../assets/profile.png') + ')'
+      "
+    ></div>
   </div>
 </div>

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/model/user';
+import { AuthService } from 'src/app/service/auth.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  user: User | undefined;
   javaCodeSnippet: string = `
   public class NestedLoopsExample {
       public static void main(String[] args) {
@@ -22,7 +26,17 @@ export class HomeComponent {
   }
     `;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
+  ) {
+    this.authService.getCurrentUser().subscribe((fireUser: any) => {
+      userService.getUserById(fireUser.uid).subscribe((res) => {
+        this.user = res[0] as User;
+      });
+    });
+  }
 
   textAreaForm = new FormGroup({
     question: new FormControl('', Validators.required),
