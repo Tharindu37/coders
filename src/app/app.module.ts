@@ -14,6 +14,9 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/components/login/login.component';
 import { RegisterComponent } from './components/user/components/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { EditProfileComponent } from './components/user/components/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -26,12 +29,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     UserComponent,
     LoginComponent,
     RegisterComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
