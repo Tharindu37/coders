@@ -17,7 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EditProfileComponent } from './components/user/components/edit-profile/edit-profile.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { CodeEditorModule } from '@ngstack/code-editor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,8 @@ import { EditProfileComponent } from './components/user/components/edit-profile/
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    HttpClientModule,
+    CodeEditorModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

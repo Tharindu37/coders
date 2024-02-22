@@ -1,0 +1,58 @@
+<div class="w-full h-full p-5 overflow-auto bg-white rounded-md">
+  <form [formGroup]="questionForm" class="flex flex-col w-full gap-3">
+    <textarea
+      placeholder="Type your question..."
+      class="w-full h-20 p-1 border focus:outline-none"
+      formControlName="question"
+    ></textarea>
+    <button
+      (click)="generateAnswer()"
+      type="button"
+      class="self-end text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+    >
+      Generate Answer
+    </button>
+  </form>
+
+  <div class="flex flex-col w-full gap-5">
+    <div
+      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
+    >
+      <ngs-code-editor
+        [theme]="theme"
+        [codeModel]="model"
+        [options]="options"
+        (valueChanged)="onCodeChanged($event)"
+      ></ngs-code-editor>
+    </div>
+    <button
+      (click)="generateAnswer()"
+      type="button"
+      class="self-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
+    >
+      Generate Wrong Answer
+    </button>
+    <div
+      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
+    >
+      <ngs-code-editor [theme]="theme" [options]="options"></ngs-code-editor>
+    </div>
+    <div
+      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
+    >
+      <ngs-code-editor [theme]="theme" [options]="options"></ngs-code-editor>
+    </div>
+    <div
+      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
+    >
+      <ngs-code-editor [theme]="theme" [options]="options"></ngs-code-editor>
+    </div>
+    <button
+      (click)="generateAnswer()"
+      type="button"
+      class="self-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
+    >
+      Post Question
+    </button>
+  </div>
+</div>
