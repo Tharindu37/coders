@@ -1,54 +1,96 @@
-<div class="w-full h-full p-5 overflow-auto bg-white rounded-md">
-  <form [formGroup]="questionForm" class="flex flex-col w-full gap-3">
-    <textarea
-      placeholder="Type your question..."
-      class="w-full h-20 p-1 border focus:outline-none"
-      formControlName="question"
-    ></textarea>
-    <button
-      (click)="generateAnswer()"
-      type="button"
-      class="self-end text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-    >
-      Generate Answer
-    </button>
-  </form>
+<div class="flex gap-5">
+  <div
+    class="flex-1 w-full h-full p-5 overflow-auto bg-white rounded-md shadow-md"
+  >
+    <form [formGroup]="questionForm" class="flex flex-col w-full gap-3">
+      <textarea
+        placeholder="Type your question..."
+        class="w-full h-20 p-1 border focus:outline-none"
+        formControlName="question"
+        [(ngModel)]="question"
+      ></textarea>
+      <button
+        (click)="generateAnswer()"
+        type="button"
+        class="self-end text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+      >
+        Generate Answer
+      </button>
+    </form>
 
-  <div class="flex flex-col w-full gap-5">
-    <div
-      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
-    >
-      <ngs-code-editor
-        [theme]="theme"
-        [codeModel]="model"
-        [options]="options"
-        (valueChanged)="onCodeChanged($event)"
-      ></ngs-code-editor>
+    <div class="flex flex-col w-full gap-5">
+      <div class="flex-1 overflow-hidden border rounded-sm shadow-md">
+        <ngs-code-editor
+          [theme]="theme"
+          [codeModel]="model"
+          [options]="options"
+          (valueChanged)="onCodeChanged($event)"
+        ></ngs-code-editor>
+      </div>
+      <button
+        (click)="generateAnswer()"
+        type="button"
+        class="self-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
+      >
+        Generate Wrong Answer
+      </button>
+      <div class="flex-1 overflow-hidden border rounded-sm shadow-md">
+        <ngs-code-editor
+          (valueChanged)="onCode2Changed($event)"
+          [theme]="theme"
+          [options]="options"
+        ></ngs-code-editor>
+      </div>
+      <div class="flex-1 overflow-hidden border rounded-sm shadow-md">
+        <ngs-code-editor
+          (valueChanged)="onCode3Changed($event)"
+          [theme]="theme"
+          [options]="options"
+        ></ngs-code-editor>
+      </div>
+      <div class="flex-1 overflow-hidden border rounded-sm shadow-md">
+        <ngs-code-editor
+          (valueChanged)="onCode4Changed($event)"
+          [theme]="theme"
+          [options]="options"
+        ></ngs-code-editor>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex flex-col flex-1 h-auto p-5 bg-white border rounded-md shadow-md"
+  >
+    <div class="p-1 border rounded-sm">
+      <p class="w-full text-xl font-medium">{{ question }}</p>
+    </div>
+    <div class="flex flex-col gap-2">
+      <div class="flex items-start gap-1 p-3 px-10">
+        <input *ngIf="code1" type="radio" class="mt-1" />
+        <pre
+          class="w-full p-1 border rounded-sm"
+        ><code [highlight]="code1!"></code></pre>
+      </div>
+      <div class="flex items-start gap-1 p-3 px-10">
+        <input *ngIf="code2" type="radio" class="mt-1" />
+        <pre
+          class="w-full p-1 border rounded-sm"
+        ><code [highlight]="code2!"></code></pre>
+      </div>
+      <div class="flex items-start gap-1 p-3 px-10">
+        <input *ngIf="code3" type="radio" class="mt-1" />
+        <pre
+          class="w-full p-1 border rounded-sm"
+        ><code [highlight]="code3!"></code></pre>
+      </div>
+      <div class="flex items-start gap-1 p-3 px-10">
+        <input *ngIf="code4" type="radio" class="mt-1" />
+        <pre
+          class="w-full p-1 border rounded-sm"
+        ><code [highlight]="code4!"></code></pre>
+      </div>
     </div>
     <button
-      (click)="generateAnswer()"
-      type="button"
-      class="self-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
-    >
-      Generate Wrong Answer
-    </button>
-    <div
-      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
-    >
-      <ngs-code-editor [theme]="theme" [options]="options"></ngs-code-editor>
-    </div>
-    <div
-      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
-    >
-      <ngs-code-editor [theme]="theme" [options]="options"></ngs-code-editor>
-    </div>
-    <div
-      class="flex-1 overflow-hidden border rounded-sm shadow-md shadow-green-300"
-    >
-      <ngs-code-editor [theme]="theme" [options]="options"></ngs-code-editor>
-    </div>
-    <button
-      (click)="generateAnswer()"
+      (click)="addQuestion()"
       type="button"
       class="self-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
     >

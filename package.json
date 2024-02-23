@@ -23,6 +23,7 @@
     "@angular/router": "^16.2.0",
     "@ngstack/code-editor": "^7.2.0",
     "monaco-editor": "^0.46.0",
+    "ngx-highlightjs": "^10.0.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.10.5",
     "tslib": "^2.3.0",

@@ -19,6 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EditProfileComponent } from './components/user/components/edit-profile/edit-profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CodeEditorModule } from '@ngstack/code-editor';
+import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,8 +42,16 @@ import { CodeEditorModule } from '@ngstack/code-editor';
     MatDialogModule,
     HttpClientModule,
     CodeEditorModule.forRoot(),
+    HighlightModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

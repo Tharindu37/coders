@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -6,14 +6,18 @@ import { User } from 'src/app/model/user';
 import { AuthService } from 'src/app/service/auth.service';
 import { UserService } from 'src/app/service/user.service';
 import { EditProfileComponent } from '../user/components/edit-profile/edit-profile.component';
+import { Question } from 'src/app/model/question';
+import { QuestionService } from 'src/app/service/question.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   user: User | undefined;
+  questions: Question[] | undefined;
   javaCodeSnippet: string = `
   public class NestedLoopsExample {
       public static void main(String[] args) {
@@ -32,13 +36,17 @@ export class HomeComponent {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private dialogRef: MatDialog
+    private dialogRef: MatDialog,
+    private questionService: QuestionService
   ) {
     this.authService.getCurrentUser().subscribe((fireUser: any) => {
       userService.getUserById(fireUser.uid).subscribe((res) => {
         this.user = res[0] as User;
       });
     });
+  }
+  ngOnInit(): void {
+    this.getQuestions();
   }
 
   editProfile() {
@@ -55,6 +63,13 @@ export class HomeComponent {
     console.log(question);
     this.router.navigate(['/question/add'], {
       queryParams: { question: question },
+    });
+  }
+
+  getQuestions() {
+    this.questionService.getQuestions().subscribe((question) => {
+      console.log(question);
+      this.questions = question as Question[];
     });
   }
 }
