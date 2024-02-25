@@ -30,6 +30,6 @@ export class QuestionService {
           return ref.orderBy('createdAt').startAfter(lastkey).limit(batch);
         else return ref.orderBy('createdAt').limit(batch);
       })
-      .valueChanges({ idFiled: 'id' });
+      .valueChanges({ idField: 'id' });
   }
 }

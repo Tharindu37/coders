@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-profile',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class EditProfileComponent {
   constructor() {}
+
+  registerForm = new FormGroup({});
+
+  onProfileSelected(event: Event) {}
+
+  onBannerSelected(event: Event) {}
 }

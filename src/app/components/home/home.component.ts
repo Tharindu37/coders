@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
@@ -11,6 +17,8 @@ import { QuestionService } from 'src/app/service/question.service';
 import { delay, map, pipe, retryWhen, take, tap } from 'rxjs';
 import { Answer } from 'src/app/model/answer';
 import { Post } from 'src/app/model/post';
+import { MarksService } from 'src/app/service/marks.service';
+import { Marks } from 'src/app/model/marks';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +35,8 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private dialogRef: MatDialog,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private marksService: MarksService
   ) {
     this.authService.getCurrentUser().subscribe((fireUser: any) => {
       userService.getUserById(fireUser.uid).subscribe((res) => {
@@ -93,45 +102,20 @@ export class HomeComponent implements OnInit {
     if (this.finished) return;
     this.questionService
       .getQuestionsForScroll(this.batch, this.lastKey?.createdAt)
-      .pipe(
-        // Retry the HTTP request with a delay when there's an error
-        retryWhen((errors) =>
-          errors.pipe(
-            // Delay before retrying
-            delay(3000), // Adjust the delay time as needed
-            // Retry a maximum of 3 times (adjust as needed)
-            take(3),
-            // Log the error
-            tap((error) => console.error('Error fetching questions:', error))
-          )
-        )
-      )
+      .pipe(take(1))
       .subscribe((questions: any[]) => {
         // this.questions = this.questions.concat(question as Question[]);
         this.lastKey = questions.slice(-1)[0] as Question;
         questions.forEach((question) => {
           this.userService
             .getUserById(question.userId)
-            .pipe(
-              // Retry the HTTP request with a delay when there's an error
-              retryWhen((errors) =>
-                errors.pipe(
-                  // Delay before retrying
-                  delay(3000), // Adjust the delay time as needed
-                  // Retry a maximum of 3 times (adjust as needed)
-                  take(3),
-                  // Log the error
-                  tap((error) =>
-                    console.error('Error fetching questions:', error)
-                  )
-                )
-              )
-            )
+            .pipe(take(1))
             .subscribe((user: any) => {
               const post: Post = {
                 question: question,
                 user: user[0] as User,
               };
+              console.log(post);
               this.posts.push(post);
             });
         });
@@ -141,5 +125,53 @@ export class HomeComponent implements OnInit {
   selector: string = '.main-panel';
   onScroll() {
     this.getQuestions();
+  }
+
+  async giveAnswer(questionId: string, isTrue: boolean) {
+    console.log(questionId, isTrue);
+    if (isTrue)
+      this.authService
+        .getCurrentUser()
+        .pipe(take(1))
+        .subscribe((user) => {
+          this.marksService
+            .getMarksByUserId(user.uid)
+            .pipe(take(1))
+            .subscribe((m: any[]) => {
+              const marks: Marks = {
+                userId: user.uid,
+                marks: m.length != 0 ? (m[0].marks as number) + 1 : 1,
+                status: '',
+                id: '',
+              };
+              this.marksService
+                .updateMarks(marks, m.length != 0 ? m[0].id : '')
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            });
+        });
+    else
+      this.authService.getCurrentUser().subscribe((user) => {
+        this.marksService.getMarksByUserId(user.userId).subscribe((m: any) => {
+          const marks: Marks = {
+            userId: user.userId,
+            marks: m.marks ? (m.marks as number) - 1 : -1,
+            status: '',
+            id: '',
+          };
+          this.marksService
+            .updateMarks(marks, m.id)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+      });
   }
 }

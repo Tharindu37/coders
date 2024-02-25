@@ -102,17 +102,17 @@ export class AddComponent implements OnInit {
         {
           index: 2,
           code: this.code2!,
-          status: true,
+          status: false,
         },
         {
           index: 3,
           code: this.code3!,
-          status: true,
+          status: false,
         },
         {
           index: 4,
           code: this.code4!,
-          status: true,
+          status: false,
         },
       ];
       this.authService.getCurrentUser().subscribe((user) => {

@@ -1,6 +1,6 @@
 <app-nav-bar></app-nav-bar>
 <div
-  class="flex w-full h-[95vh] flex-1 px-44 bg-gradient-to-r gap-5 from-green-50 via-green-100 to-green-100 border pt-5"
+  class="flex w-full h-[95vh] flex-1 px-44 bg-gradient-to-r gap-5 from-green-50 via-green-100 to-green-50 border pt-5"
 >
   <div
     class="flex-1 h-[80vh] flex flex-col rounded-md overflow-hidden shadow-md border bg-white"
@@ -80,14 +80,16 @@
     <!-- Post Section -->
     <div class="flex-1 w-full p-1 overflow-y-auto main-panel">
       <div
-        *ngFor="let post of posts"
+        *ngFor="let post of posts; let i = index"
         class="flex flex-col w-full h-auto p-5 mb-1 bg-white border rounded-md shadow-md"
       >
         <div class="flex w-full gap-2 p-1">
           <div
             class="flex w-10 h-10 overflow-hidden bg-center bg-cover border rounded-full"
             [style.background-image]="
-              'url(' + (user?.photoURL || '../../../assets/profile.png') + ')'
+              'url(' +
+              (post.user.photoURL || '../../../assets/profile.png') +
+              ')'
             "
           ></div>
           <div class="flex-1">
@@ -104,27 +106,23 @@
             {{ post.question.question }}
           </p>
           <div class="flex items-start gap-1">
-            <input type="radio" />
             <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{post.question.answer[0].code}}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[0].status)" class="w-full p-1 border rounded-sm">{{post.question.answer[0].code}}</code>
             </pre>
           </div>
           <div class="flex items-start gap-1">
-            <input type="radio" />
             <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{ post.question.answer[1].code }}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[0].status)" class="w-full p-1 border rounded-sm">{{ post.question.answer[1].code }}</code>
             </pre>
           </div>
           <div class="flex items-start gap-1">
-            <input type="radio" />
             <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{ post.question.answer[2].code }}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[0].status)" class="w-full p-1 border rounded-sm">{{ post.question.answer[2].code }}</code>
             </pre>
           </div>
           <div class="flex items-start gap-1">
-            <input type="radio" />
             <pre class="flex w-full overflow-x-auto">
-                <code class="w-full border rounded-sm">{{ post.question.answer[3].code}}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[0].status)" class="w-full p-1 border rounded-sm">{{ post.question.answer[3].code}}</code>
             </pre>
           </div>
         </div>
@@ -139,6 +137,7 @@
       ></div>
     </div>
   </div>
+
   <div
     class="flex-1 shadow-md border h-[80vh] flex flex-col rounded-md overflow-hidden bg-white"
   ></div>
