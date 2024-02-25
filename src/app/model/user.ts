@@ -11,6 +11,6 @@ export interface User {
   accounts: Social[];
   email: string;
   emailVerified: boolean;
-  discription: string;
+  description: string;
   id: string;
 }
