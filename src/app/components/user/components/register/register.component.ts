@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/model/user';
 import { AuthService } from 'src/app/service/auth.service';
-import { UserService } from 'src/app/service/user.service';
 import Swal from 'sweetalert2';
 import firebase from 'firebase/compat/app';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-register',

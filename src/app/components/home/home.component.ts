@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
                 )
               )
             )
-            .subscribe((user) => {
+            .subscribe((user: any) => {
               const post: Post = {
                 question: question,
                 user: user[0] as User,

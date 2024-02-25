@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from './../../service/auth.service';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
-import { UserService } from 'src/app/service/user.service';
 import { User } from './../../model/user';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-nav-bar',
