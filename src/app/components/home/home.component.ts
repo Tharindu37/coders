@@ -8,7 +8,9 @@ import { UserService } from 'src/app/service/user.service';
 import { EditProfileComponent } from '../user/components/edit-profile/edit-profile.component';
 import { Question } from 'src/app/model/question';
 import { QuestionService } from 'src/app/service/question.service';
-import { map } from 'rxjs';
+import { delay, map, pipe, retryWhen, take, tap } from 'rxjs';
+import { Answer } from 'src/app/model/answer';
+import { Post } from 'src/app/model/post';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +19,8 @@ import { map } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   user: User | undefined;
-  questions: Question[] | undefined;
+  questions: Question[] = [];
+  posts: Post[] = [];
   javaCodeSnippet: string = `
   public class NestedLoopsExample {
       public static void main(String[] args) {
@@ -59,17 +62,97 @@ export class HomeComponent implements OnInit {
 
   addQuestion() {
     const question = this.textAreaForm.get('question')?.value as string;
-
-    console.log(question);
     this.router.navigate(['/question/add'], {
       queryParams: { question: question },
     });
   }
 
+  // getQuestions() {
+  //   this.questionService.getQuestions().subscribe((question) => {
+  //     console.log(question);
+  //     this.questions = question as Question[];
+  //   });
+  // }
+
+  batch = 2;
+  lastKey: Question | undefined;
+  finished = false;
+
+  // getQuestions() {
+  //   if (this.finished) return;
+  //   this.questionService
+  //     .getQuestionsForScroll(this.batch, this.lastKey?.createdAt)
+  //     .pipe(
+  //       // Retry the HTTP request with a delay when there's an error
+  //       retryWhen((errors) =>
+  //         errors.pipe(
+  //           // Delay before retrying
+  //           delay(3000), // Adjust the delay time as needed
+  //           // Retry a maximum of 3 times (adjust as needed)
+  //           take(3),
+  //           // Log the error
+  //           tap((error) => console.error('Error fetching questions:', error))
+  //         )
+  //       )
+  //     )
+  //     .subscribe((question) => {
+  //       this.questions = this.questions.concat(question as Question[]);
+  //       this.lastKey = question.slice(-1)[0] as Question;
+  //       console.log(this.lastKey);
+  //     });
+  // }
+
   getQuestions() {
-    this.questionService.getQuestions().subscribe((question) => {
-      console.log(question);
-      this.questions = question as Question[];
-    });
+    if (this.finished) return;
+    this.questionService
+      .getQuestionsForScroll(this.batch, this.lastKey?.createdAt)
+      .pipe(
+        // Retry the HTTP request with a delay when there's an error
+        retryWhen((errors) =>
+          errors.pipe(
+            // Delay before retrying
+            delay(3000), // Adjust the delay time as needed
+            // Retry a maximum of 3 times (adjust as needed)
+            take(3),
+            // Log the error
+            tap((error) => console.error('Error fetching questions:', error))
+          )
+        )
+      )
+      .subscribe((questions: any[]) => {
+        // this.questions = this.questions.concat(question as Question[]);
+        this.lastKey = questions.slice(-1)[0] as Question;
+        questions.forEach((question) => {
+          this.userService
+            .getUserById(question.userId)
+            .pipe(
+              // Retry the HTTP request with a delay when there's an error
+              retryWhen((errors) =>
+                errors.pipe(
+                  // Delay before retrying
+                  delay(3000), // Adjust the delay time as needed
+                  // Retry a maximum of 3 times (adjust as needed)
+                  take(3),
+                  // Log the error
+                  tap((error) =>
+                    console.error('Error fetching questions:', error)
+                  )
+                )
+              )
+            )
+            .subscribe((user) => {
+              const post: Post = {
+                question: question,
+                user: user[0] as User,
+              };
+              this.posts.push(post);
+            });
+        });
+      });
+  }
+
+  selector: string = '.main-panel';
+  onScroll() {
+    this.getQuestions();
   }
 }

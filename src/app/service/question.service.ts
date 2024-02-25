@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Question } from '../model/question';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-
+import firebase from 'firebase/compat/app';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,5 +21,15 @@ export class QuestionService {
 
   getQuestions() {
     return this.firestore.collection('question').valueChanges();
+  }
+
+  getQuestionsForScroll(batch: number, lastkey?: firebase.firestore.Timestamp) {
+    return this.firestore
+      .collection('question', (ref) => {
+        if (lastkey)
+          return ref.orderBy('createdAt').startAfter(lastkey).limit(batch);
+        else return ref.orderBy('createdAt').limit(batch);
+      })
+      .valueChanges({ idFiled: 'id' });
   }
 }

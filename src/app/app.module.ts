@@ -20,6 +20,7 @@ import { EditProfileComponent } from './components/user/components/edit-profile/
 import { HttpClientModule } from '@angular/common/http';
 import { CodeEditorModule } from '@ngstack/code-editor';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +44,7 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
     HttpClientModule,
     CodeEditorModule.forRoot(),
     HighlightModule,
+    InfiniteScrollModule,
   ],
   providers: [
     {
