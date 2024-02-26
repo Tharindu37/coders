@@ -124,6 +124,7 @@ export class AddComponent implements OnInit {
           tags: [],
           question: this.question,
           answer: answer,
+          giveAnswer: [],
         };
         this.questionService
           .addQuestion(question)

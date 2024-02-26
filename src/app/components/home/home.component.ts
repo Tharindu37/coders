@@ -19,6 +19,7 @@ import { Answer } from 'src/app/model/answer';
 import { Post } from 'src/app/model/post';
 import { MarksService } from 'src/app/service/marks.service';
 import { Marks } from 'src/app/model/marks';
+import { GiveAnswer } from './../../model/give-answer';
 
 @Component({
   selector: 'app-home',
@@ -63,13 +64,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // getQuestions() {
-  //   this.questionService.getQuestions().subscribe((question) => {
-  //     console.log(question);
-  //     this.questions = question as Question[];
-  //   });
-  // }
-
   batch = 2;
   lastKey: Question | undefined;
   finished = false;
@@ -78,47 +72,56 @@ export class HomeComponent implements OnInit {
   //   if (this.finished) return;
   //   this.questionService
   //     .getQuestionsForScroll(this.batch, this.lastKey?.createdAt)
-  //     .pipe(
-  //       // Retry the HTTP request with a delay when there's an error
-  //       retryWhen((errors) =>
-  //         errors.pipe(
-  //           // Delay before retrying
-  //           delay(3000), // Adjust the delay time as needed
-  //           // Retry a maximum of 3 times (adjust as needed)
-  //           take(3),
-  //           // Log the error
-  //           tap((error) => console.error('Error fetching questions:', error))
-  //         )
-  //       )
-  //     )
-  //     .subscribe((question) => {
-  //       this.questions = this.questions.concat(question as Question[]);
-  //       this.lastKey = question.slice(-1)[0] as Question;
-  //       console.log(this.lastKey);
+  //     .pipe(take(1))
+  //     .subscribe((questions: any[]) => {
+  //       // this.questions = this.questions.concat(question as Question[]);
+  //       this.lastKey = questions.slice(-1)[0] as Question;
+  //       questions.forEach((question) => {
+  //         this.userService
+  //           .getUserById(question.userId)
+  //           .pipe(take(1))
+  //           .subscribe((user: any) => {
+  //             const post: Post = {
+  //               question: question,
+  //               user: user[0] as User,
+  //             };
+  //             console.log(post);
+  //             this.posts.push(post);
+  //           });
+  //       });
   //     });
   // }
 
   getQuestions() {
     if (this.finished) return;
-    this.questionService
-      .getQuestionsForScroll(this.batch, this.lastKey?.createdAt)
+    this.authService
+      .getCurrentUser()
       .pipe(take(1))
-      .subscribe((questions: any[]) => {
-        // this.questions = this.questions.concat(question as Question[]);
-        this.lastKey = questions.slice(-1)[0] as Question;
-        questions.forEach((question) => {
-          this.userService
-            .getUserById(question.userId)
-            .pipe(take(1))
-            .subscribe((user: any) => {
-              const post: Post = {
-                question: question,
-                user: user[0] as User,
-              };
-              console.log(post);
-              this.posts.push(post);
+      .subscribe((user) => {
+        this.questionService
+          .getQuestionsForScrollByUser(
+            this.batch,
+            user.uid,
+            this.lastKey?.createdAt
+          )
+          .pipe(take(1))
+          .subscribe((questions: any[]) => {
+            // this.questions = this.questions.concat(question as Question[]);
+            this.lastKey = questions.slice(-1)[0] as Question;
+            questions.forEach((question) => {
+              this.userService
+                .getUserById(question.userId)
+                .pipe(take(1))
+                .subscribe((user: any) => {
+                  const post: Post = {
+                    question: question,
+                    user: user[0] as User,
+                  };
+                  console.log(post);
+                  this.posts.push(post);
+                });
             });
-        });
+          });
       });
   }
 
@@ -127,51 +130,73 @@ export class HomeComponent implements OnInit {
     this.getQuestions();
   }
 
-  async giveAnswer(questionId: string, isTrue: boolean) {
-    console.log(questionId, isTrue);
-    if (isTrue)
-      this.authService
-        .getCurrentUser()
-        .pipe(take(1))
-        .subscribe((user) => {
-          this.marksService
-            .getMarksByUserId(user.uid)
-            .pipe(take(1))
-            .subscribe((m: any[]) => {
-              const marks: Marks = {
-                userId: user.uid,
-                marks: m.length != 0 ? (m[0].marks as number) + 1 : 1,
-                status: '',
-                id: '',
-              };
-              this.marksService
-                .updateMarks(marks, m.length != 0 ? m[0].id : '')
-                .then((res) => {
-                  console.log(res);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            });
-        });
-    else
-      this.authService.getCurrentUser().subscribe((user) => {
-        this.marksService.getMarksByUserId(user.userId).subscribe((m: any) => {
-          const marks: Marks = {
-            userId: user.userId,
-            marks: m.marks ? (m.marks as number) - 1 : -1,
-            status: '',
-            id: '',
-          };
-          this.marksService
-            .updateMarks(marks, m.id)
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
+  // async giveAnswer(questionId: string, isTrue: boolean) {
+  //   console.log(questionId, isTrue);
+  //   if (isTrue)
+  //     this.authService
+  //       .getCurrentUser()
+  //       .pipe(take(1))
+  //       .subscribe((user) => {
+  //         this.marksService
+  //           .getMarksByUserId(user.uid)
+  //           .pipe(take(1))
+  //           .subscribe((m: any[]) => {
+  //             const marks: Marks = {
+  //               userId: user.uid,
+  //               marks: m.length != 0 ? (m[0].marks as number) + 1 : 1,
+  //               status: '',
+  //               id: '',
+  //             };
+  //             this.marksService
+  //               .updateMarks(marks, m.length != 0 ? m[0].id : '')
+  //               .then((res) => {
+  //                 console.log(res);
+  //               })
+  //               .catch((error) => {
+  //                 console.log(error);
+  //               });
+  //           });
+  //       });
+  //   else
+  //     this.authService.getCurrentUser().subscribe((user) => {
+  //       this.marksService.getMarksByUserId(user.userId).subscribe((m: any) => {
+  //         const marks: Marks = {
+  //           userId: user.userId,
+  //           marks: m.marks ? (m.marks as number) - 1 : -1,
+  //           status: '',
+  //           id: '',
+  //         };
+  //         this.marksService
+  //           .updateMarks(marks, m.id)
+  //           .then((res) => {
+  //             console.log(res);
+  //           })
+  //           .catch((error) => {
+  //             console.log(error);
+  //           });
+  //       });
+  //     });
+  // }
+
+  giveAnswer(questionId: string, index: number) {
+    this.authService
+      .getCurrentUser()
+      .pipe(take(1))
+      .subscribe((user) => {
+        const giveAnswer: GiveAnswer = {
+          id: '',
+          userId: user.uid,
+          answer: index,
+        };
+
+        this.questionService
+          .giveAnswer(giveAnswer, questionId)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
   }
 }
