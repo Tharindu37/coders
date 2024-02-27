@@ -180,7 +180,7 @@ export class HomeComponent implements OnInit {
             const marks: Marks = {
               userId: user.uid,
               correct: m.length != 0 ? (m[0].correct as number) : 0,
-              wrong: m.length != 0 ? (m[0].wrong as number) + 1 : 0,
+              wrong: m.length != 0 ? (m[0].wrong as number) + 1 : 1,
               status: '',
               id: '',
             };
