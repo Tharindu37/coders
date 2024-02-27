@@ -116,6 +116,7 @@ export class HomeComponent implements OnInit {
                   const post: Post = {
                     question: question,
                     user: user[0] as User,
+                    answer: 0,
                   };
                   console.log(post);
                   this.posts.push(post);
@@ -130,55 +131,56 @@ export class HomeComponent implements OnInit {
     this.getQuestions();
   }
 
-  // async giveAnswer(questionId: string, isTrue: boolean) {
-  //   console.log(questionId, isTrue);
-  //   if (isTrue)
-  //     this.authService
-  //       .getCurrentUser()
-  //       .pipe(take(1))
-  //       .subscribe((user) => {
-  //         this.marksService
-  //           .getMarksByUserId(user.uid)
-  //           .pipe(take(1))
-  //           .subscribe((m: any[]) => {
-  //             const marks: Marks = {
-  //               userId: user.uid,
-  //               marks: m.length != 0 ? (m[0].marks as number) + 1 : 1,
-  //               status: '',
-  //               id: '',
-  //             };
-  //             this.marksService
-  //               .updateMarks(marks, m.length != 0 ? m[0].id : '')
-  //               .then((res) => {
-  //                 console.log(res);
-  //               })
-  //               .catch((error) => {
-  //                 console.log(error);
-  //               });
-  //           });
-  //       });
-  //   else
-  //     this.authService.getCurrentUser().subscribe((user) => {
-  //       this.marksService.getMarksByUserId(user.userId).subscribe((m: any) => {
-  //         const marks: Marks = {
-  //           userId: user.userId,
-  //           marks: m.marks ? (m.marks as number) - 1 : -1,
-  //           status: '',
-  //           id: '',
-  //         };
-  //         this.marksService
-  //           .updateMarks(marks, m.id)
-  //           .then((res) => {
-  //             console.log(res);
-  //           })
-  //           .catch((error) => {
-  //             console.log(error);
-  //           });
-  //       });
-  //     });
-  // }
+  updateMarks(questionId: string, isTrue: boolean) {
+    if (isTrue)
+      this.authService
+        .getCurrentUser()
+        .pipe(take(1))
+        .subscribe((user) => {
+          this.marksService
+            .getMarksByUserId(user.uid)
+            .pipe(take(1))
+            .subscribe((m: any[]) => {
+              const marks: Marks = {
+                userId: user.uid,
+                marks: m.length != 0 ? (m[0].marks as number) + 1 : 1,
+                status: '',
+                id: '',
+              };
+              this.marksService
+                .updateMarks(marks, m.length != 0 ? m[0].id : '')
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            });
+        });
+    else
+      this.authService.getCurrentUser().subscribe((user) => {
+        this.marksService.getMarksByUserId(user.userId).subscribe((m: any) => {
+          const marks: Marks = {
+            userId: user.userId,
+            marks: m.marks ? (m.marks as number) - 1 : -1,
+            status: '',
+            id: '',
+          };
+          this.marksService
+            .updateMarks(marks, m.id)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+      });
+  }
 
-  giveAnswer(questionId: string, index: number) {
+  giveAnswer(questionId: string, index: number, answer: number) {
+    if (answer != 0) return;
+    this.updatePost(questionId, index);
     this.authService
       .getCurrentUser()
       .pipe(take(1))
@@ -198,5 +200,13 @@ export class HomeComponent implements OnInit {
             console.log(error);
           });
       });
+  }
+
+  private updatePost(questionId: string, index: number) {
+    const post = this.posts.find((post) => post.question.id == questionId);
+    if (post) {
+      post.answer = index;
+    }
+    console.log(post);
   }
 }

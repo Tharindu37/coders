@@ -107,22 +107,22 @@
           </p>
           <div class="flex items-start gap-1">
             <pre class="flex w-full overflow-x-auto">
-                <code (click)="giveAnswer(post.question.id,post.question.answer[0].index)" class="w-full p-1 border rounded-sm">{{post.question.answer[0].code}}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[0].index,post.answer)" [ngClass]="{'bg-green-100':post.question.answer[0].status && post.answer==post.question.answer[0].index,'bg-red-100':!post.question.answer[0].status && post.answer==post.question.answer[0].index}" class="w-full p-1 border rounded-sm">{{post.question.answer[0].code}}</code>
             </pre>
           </div>
           <div class="flex items-start gap-1">
             <pre class="flex w-full overflow-x-auto">
-                <code (click)="giveAnswer(post.question.id,post.question.answer[0].index)" class="w-full p-1 border rounded-sm">{{ post.question.answer[1].code }}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[1].index,post.answer)" [ngClass]="{'bg-green-100':post.question.answer[1].status&& post.answer==post.question.answer[1].index,'bg-red-100':!post.question.answer[1].status && post.answer==post.question.answer[1].index}" class="w-full p-1 border rounded-sm">{{ post.question.answer[1].code }}</code>
             </pre>
           </div>
           <div class="flex items-start gap-1">
             <pre class="flex w-full overflow-x-auto">
-                <code (click)="giveAnswer(post.question.id,post.question.answer[0].index)" class="w-full p-1 border rounded-sm">{{ post.question.answer[2].code }}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[2].index,post.answer)" [ngClass]="{'bg-green-100':post.question.answer[2].status&& post.answer==post.question.answer[2].index,'bg-red-100':!post.question.answer[2].status && post.answer==post.question.answer[2].index}" class="w-full p-1 border rounded-sm">{{ post.question.answer[2].code }}</code>
             </pre>
           </div>
           <div class="flex items-start gap-1">
             <pre class="flex w-full overflow-x-auto">
-                <code (click)="giveAnswer(post.question.id,post.question.answer[0].index)" class="w-full p-1 border rounded-sm">{{ post.question.answer[3].code}}</code>
+                <code (click)="giveAnswer(post.question.id,post.question.answer[3].index,post.answer)" [ngClass]="{'bg-green-100':post.question.answer[3].status&& post.answer==post.question.answer[3].index,'bg-red-100':!post.question.answer[3].status && post.answer==post.question.answer[3].index}" class="w-full p-1 border rounded-sm">{{ post.question.answer[3].code}}</code>
             </pre>
           </div>
         </div>
