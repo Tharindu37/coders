@@ -1,6 +1,7 @@
 export interface Marks {
   userId: string;
-  marks: number;
+  correct: number;
+  wrong: number;
   status: string;
   id: string;
 }

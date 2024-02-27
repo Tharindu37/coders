@@ -51,10 +51,8 @@ export class RegisterComponent {
   });
 
   async register() {
-    console.log(this.register);
     const email = this.registerForm.get('email')?.value as string;
     const password = this.registerForm.get('password')?.value as string;
-    console.log(email, password);
     try {
       const res = await this.authService.register(email, password);
       const profileUrlPromise = this.userService.uploadPicture(
@@ -91,6 +89,7 @@ export class RegisterComponent {
         title: 'Registation Successful!',
         icon: 'success',
         showConfirmButton: false,
+        timer: 2000,
       });
     } catch (error: any) {
       Swal.fire({

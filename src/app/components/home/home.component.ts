@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   user: User | undefined;
   questions: Question[] = [];
   posts: Post[] = [];
+  marks: Marks | undefined;
 
   constructor(
     private router: Router,
@@ -47,6 +48,18 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getQuestions();
+    this.getMarks();
+  }
+
+  getMarks() {
+    this.authService
+      .getCurrentUser()
+
+      .subscribe((fireUser: any) => {
+        this.marksService.getMarksByUserId(fireUser.uid).subscribe((m) => {
+          this.marks = m[0] as Marks;
+        });
+      });
   }
 
   editProfile() {
@@ -118,7 +131,7 @@ export class HomeComponent implements OnInit {
                     user: user[0] as User,
                     answer: 0,
                   };
-                  console.log(post);
+
                   this.posts.push(post);
                 });
             });
@@ -131,7 +144,7 @@ export class HomeComponent implements OnInit {
     this.getQuestions();
   }
 
-  updateMarks(questionId: string, isTrue: boolean) {
+  updateMarksData(questionId: string, isTrue: boolean) {
     if (isTrue)
       this.authService
         .getCurrentUser()
@@ -143,7 +156,8 @@ export class HomeComponent implements OnInit {
             .subscribe((m: any[]) => {
               const marks: Marks = {
                 userId: user.uid,
-                marks: m.length != 0 ? (m[0].marks as number) + 1 : 1,
+                correct: m.length != 0 ? (m[0].correct as number) + 1 : 1,
+                wrong: m.length != 0 ? (m[0].wrong as number) : 0,
                 status: '',
                 id: '',
               };
@@ -159,22 +173,26 @@ export class HomeComponent implements OnInit {
         });
     else
       this.authService.getCurrentUser().subscribe((user) => {
-        this.marksService.getMarksByUserId(user.userId).subscribe((m: any) => {
-          const marks: Marks = {
-            userId: user.userId,
-            marks: m.marks ? (m.marks as number) - 1 : -1,
-            status: '',
-            id: '',
-          };
-          this.marksService
-            .updateMarks(marks, m.id)
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
+        this.marksService
+          .getMarksByUserId(user.uid)
+          .pipe(take(1))
+          .subscribe((m: any) => {
+            const marks: Marks = {
+              userId: user.uid,
+              correct: m.length != 0 ? (m[0].correct as number) : 0,
+              wrong: m.length != 0 ? (m[0].wrong as number) + 1 : 0,
+              status: '',
+              id: '',
+            };
+            this.marksService
+              .updateMarks(marks, m.length != 0 ? m[0].id : '')
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          });
       });
   }
 
@@ -206,7 +224,10 @@ export class HomeComponent implements OnInit {
     const post = this.posts.find((post) => post.question.id == questionId);
     if (post) {
       post.answer = index;
+      this.updateMarksData(
+        questionId,
+        post.question.answer.find((ans) => ans.index == index)?.status!
+      );
     }
-    console.log(post);
   }
 }

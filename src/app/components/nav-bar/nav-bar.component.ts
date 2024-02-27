@@ -32,7 +32,6 @@ export class NavBarComponent {
   }
   showMenu() {
     this.isShow = !this.isShow;
-    console.log(this.isShow);
   }
 
   async signOut() {

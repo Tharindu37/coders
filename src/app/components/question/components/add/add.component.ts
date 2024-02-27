@@ -7,6 +7,7 @@ import { QuestionService } from 'src/app/service/question.service';
 import firebase from 'firebase/compat/app';
 import { AuthService } from 'src/app/service/auth.service';
 import { Answer } from 'src/app/model/answer';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add',
@@ -37,10 +38,7 @@ export class AddComponent implements OnInit {
   generateAnswer() {
     const question = this.questionForm.get('question')?.value as string;
     this.questionService.generateAnswer(question).subscribe((res: any) => {
-      console.log(res);
-      console.log(res.answer.content);
       const jsonObject = JSON.parse(res.answer.content);
-      console.log(jsonObject);
       this.model = {
         ...this.model,
         value: jsonObject.code,
@@ -129,10 +127,20 @@ export class AddComponent implements OnInit {
         this.questionService
           .addQuestion(question)
           .then((res) => {
-            console.log('add question');
+            Swal.fire({
+              title: 'Question Added Successful!',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 2000,
+            });
           })
           .catch((error: any) => {
-            console.log(error);
+            Swal.fire({
+              title: 'Question Added Error!',
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 2000,
+            });
           });
       });
     } catch (error) {

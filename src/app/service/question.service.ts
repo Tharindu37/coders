@@ -138,7 +138,6 @@ export class QuestionService {
   }
 
   giveAnswer(giveAnswer: GiveAnswer, questionId: string) {
-    console.log(giveAnswer, questionId);
     const questionRef: any = this.firestore
       .collection('question')
       .doc(questionId);
@@ -151,7 +150,6 @@ export class QuestionService {
 
         // Get the current data of the question document
         const questionData: any = doc.data();
-        console.log(questionData);
         // Append the new giveAnswer entry to the existing giveAnswer array
         const updatedGiveAnswer = [
           ...(questionData?.giveAnswer || []),
