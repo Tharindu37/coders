@@ -2,10 +2,12 @@
   class="flex items-center content-between w-full h-[5vh] px-2 bg-gradient-to-r from-green-600 via-green-500 to-green-600 shadow-md md:px-44 shadow-green-600"
 >
   <div class="">
-    <h1 style="margin-bottom: 0" class="text-2xl font-bold">Coders.tech</h1>
+    <h1 routerLink="/home" style="margin-bottom: 0" class="text-2xl font-bold">
+      Coders.tech
+    </h1>
   </div>
   <div class="flex items-center justify-center flex-1 gap-20">
-    <a routerLink="/home" routerLinkActive="text-white">
+    <a class="hidden md:block" routerLink="/home" routerLinkActive="text-white">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -21,7 +23,11 @@
         />
       </svg>
     </a>
-    <a routerLink="/dashboard" routerLinkActive="text-white">
+    <a
+      class="hidden md:block"
+      routerLink="/dashboard"
+      routerLinkActive="text-white"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -37,7 +43,11 @@
         />
       </svg>
     </a>
-    <a routerLink="/question" routerLinkActive="text-white">
+    <a
+      class="hidden md:block"
+      routerLink="/question"
+      routerLinkActive="text-white"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -53,7 +63,11 @@
         />
       </svg>
     </a>
-    <a routerLink="/notification" routerLinkActive="text-white">
+    <a
+      class="hidden md:block"
+      routerLink="/notification"
+      routerLinkActive="text-white"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -89,6 +103,11 @@
         </li>
         <li>
           <a href="#" class="block px-4 py-2 hover:bg-green-100">Earnings</a>
+        </li>
+        <li>
+          <a routerLink="/question" class="block px-4 py-2 hover:bg-green-100"
+            >Question</a
+          >
         </li>
       </ul>
       <div class="py-1">
