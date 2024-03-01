@@ -10,15 +10,5 @@ import { ActivatedRoute, Router, Routes } from '@angular/router';
 })
 export class AppComponent {
   title = 'coders';
-  constructor(private authService: AuthService, private router: Router) {
-    authService
-      .getCurrentUser()
-      .pipe(
-        map((user) => {
-          if (user)
-            router.navigate([localStorage.getItem('returnUrl') || '/home']);
-        })
-      )
-      .subscribe();
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 }

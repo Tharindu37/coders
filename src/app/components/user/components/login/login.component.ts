@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 
@@ -10,7 +11,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    authService
+      .getCurrentUser()
+      .pipe(
+        map((user) => {
+          if (user)
+            router.navigate([localStorage.getItem('returnUrl') || '/home']);
+        })
+      )
+      .subscribe();
+  }
 
   loginFrom = new FormGroup({
     email: new FormControl('', Validators.required),
