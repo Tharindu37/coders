@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CodeEditorModule } from '@ngstack/code-editor';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ProfileComponent } from './components/user/components/profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     LoginComponent,
     RegisterComponent,
     EditProfileComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
