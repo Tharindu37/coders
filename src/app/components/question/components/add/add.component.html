@@ -28,7 +28,7 @@
         ></ngs-code-editor>
       </div>
       <button
-        (click)="generateAnswer()"
+        (click)="generateWrongAnswer()"
         type="button"
         class="self-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
       >
@@ -37,6 +37,7 @@
       <div class="flex-1 overflow-hidden border rounded-sm shadow-md">
         <ngs-code-editor
           (valueChanged)="onCode2Changed($event)"
+          [codeModel]="model1"
           [theme]="theme"
           [options]="options"
         ></ngs-code-editor>
@@ -45,12 +46,14 @@
         <ngs-code-editor
           (valueChanged)="onCode3Changed($event)"
           [theme]="theme"
+          [codeModel]="model2"
           [options]="options"
         ></ngs-code-editor>
       </div>
       <div class="flex-1 overflow-hidden border rounded-sm shadow-md">
         <ngs-code-editor
           (valueChanged)="onCode4Changed($event)"
+          [codeModel]="model3"
           [theme]="theme"
           [options]="options"
         ></ngs-code-editor>

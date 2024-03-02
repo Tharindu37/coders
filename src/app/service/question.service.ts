@@ -19,6 +19,12 @@ export class QuestionService {
     return this.http.get(`http://127.0.0.1:8000/answer/${question}`);
   }
 
+  generateWrongAnswer(answer: string) {
+    return this.http.get(
+      `http://127.0.0.1:8000/wrong_answer/${encodeURIComponent(answer)}`
+    );
+  }
+
   addQuestion(question: Question) {
     return this.firestore.collection('question').add(question);
   }

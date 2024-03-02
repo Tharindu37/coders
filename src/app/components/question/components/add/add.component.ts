@@ -47,11 +47,54 @@ export class AddComponent implements OnInit {
     });
   }
 
+  generateWrongAnswer() {
+    if (!this.code1) return;
+    this.questionService
+      .generateWrongAnswer(this.code1 as string)
+      .subscribe((res: any) => {
+        console.log(res.wrong_answers[0]);
+
+        this.model1 = {
+          ...this.model1,
+          language: this.model.language,
+          value: res.wrong_answers[0],
+        };
+        this.model2 = {
+          ...this.model2,
+          language: this.model.language,
+          value: res.wrong_answers[1],
+        };
+        this.model3 = {
+          ...this.model3,
+          language: this.model.language,
+          value: res.wrong_answers[2],
+        };
+      });
+  }
+
   theme = 'vs-light';
 
   model: CodeModel = {
     language: 'java',
     uri: 'main.json',
+    value: '',
+  };
+
+  model1: CodeModel = {
+    language: 'java',
+    uri: 'main1.json',
+    value: '',
+  };
+
+  model2: CodeModel = {
+    language: 'java',
+    uri: 'main2.json',
+    value: '',
+  };
+
+  model3: CodeModel = {
+    language: 'java',
+    uri: 'main3.json',
     value: '',
   };
 
