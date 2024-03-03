@@ -8,6 +8,7 @@ import firebase from 'firebase/compat/app';
 import { AuthService } from 'src/app/service/auth.service';
 import { Answer } from 'src/app/model/answer';
 import Swal from 'sweetalert2';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-add',
@@ -156,36 +157,39 @@ export class AddComponent implements OnInit {
           status: false,
         },
       ];
-      this.authService.getCurrentUser().subscribe((user) => {
-        const question: Question = {
-          createdAt: firebase.firestore.Timestamp.now(),
-          updatedAt: firebase.firestore.Timestamp.now(),
-          userId: user.uid,
-          id: '',
-          tags: [],
-          question: this.question,
-          answer: answer,
-          giveAnswer: [],
-        };
-        this.questionService
-          .addQuestion(question)
-          .then((res) => {
-            Swal.fire({
-              title: 'Question Added Successful!',
-              icon: 'success',
-              showConfirmButton: false,
-              timer: 2000,
+      this.authService
+        .getCurrentUser()
+        .pipe(take(1))
+        .subscribe((user) => {
+          const question: Question = {
+            createdAt: firebase.firestore.Timestamp.now(),
+            updatedAt: firebase.firestore.Timestamp.now(),
+            userId: user.uid,
+            id: '',
+            tags: [],
+            question: this.question,
+            answer: answer,
+            giveAnswer: [],
+          };
+          this.questionService
+            .addQuestion(question)
+            .then((res) => {
+              Swal.fire({
+                title: 'Question Added Successful!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            })
+            .catch((error: any) => {
+              Swal.fire({
+                title: 'Question Added Error!',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+              });
             });
-          })
-          .catch((error: any) => {
-            Swal.fire({
-              title: 'Question Added Error!',
-              icon: 'error',
-              showConfirmButton: false,
-              timer: 2000,
-            });
-          });
-      });
+        });
     } catch (error) {
       console.log(error);
     }
