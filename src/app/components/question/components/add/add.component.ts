@@ -21,6 +21,9 @@ export class AddComponent implements OnInit {
   code2: string | undefined;
   code3: string | undefined;
   code4: string | undefined;
+  isGenerateAnswer: boolean = false;
+  isGenerateWrongAnswer: boolean = false;
+  isPostQuestion: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private questionService: QuestionService,
@@ -37,22 +40,32 @@ export class AddComponent implements OnInit {
   }
 
   generateAnswer() {
+    this.isGenerateAnswer = true;
     const question = this.questionForm.get('question')?.value as string;
-    this.questionService.generateAnswer(question).subscribe((res: any) => {
-      const jsonObject = JSON.parse(res.answer.content);
-      this.model = {
-        ...this.model,
-        value: jsonObject.code,
-        language: jsonObject.language,
-      };
-    });
+    this.questionService.generateAnswer(question).subscribe(
+      (res: any) => {
+        const jsonObject = JSON.parse(res.answer.content);
+        this.model = {
+          ...this.model,
+          value: jsonObject.code,
+          language: jsonObject.language,
+        };
+        this.isGenerateAnswer = false;
+      },
+      (error) => {
+        this.isGenerateAnswer = false;
+      }
+    );
   }
 
   generateWrongAnswer() {
-    if (!this.code1) return;
-    this.questionService
-      .generateWrongAnswer(this.code1 as string)
-      .subscribe((res: any) => {
+    this.isGenerateWrongAnswer = true;
+    if (!this.code1) {
+      this.isGenerateWrongAnswer = false;
+      return;
+    }
+    this.questionService.generateWrongAnswer(this.code1 as string).subscribe(
+      (res: any) => {
         console.log(res.wrong_answers[0]);
 
         this.model1 = {
@@ -70,7 +83,12 @@ export class AddComponent implements OnInit {
           language: this.model.language,
           value: res.wrong_answers[2],
         };
-      });
+        this.isGenerateWrongAnswer = false;
+      },
+      (error) => {
+        this.isGenerateWrongAnswer = false;
+      }
+    );
   }
 
   theme = 'vs-light';
@@ -123,6 +141,7 @@ export class AddComponent implements OnInit {
   }
 
   async addQuestion() {
+    this.isPostQuestion = true;
     if (
       !this.question ||
       !this.code1 ||
@@ -174,6 +193,7 @@ export class AddComponent implements OnInit {
           this.questionService
             .addQuestion(question)
             .then((res) => {
+              this.isPostQuestion = false;
               Swal.fire({
                 title: 'Question Added Successful!',
                 icon: 'success',
@@ -182,6 +202,7 @@ export class AddComponent implements OnInit {
               });
             })
             .catch((error: any) => {
+              this.isPostQuestion = false;
               Swal.fire({
                 title: 'Question Added Error!',
                 icon: 'error',
@@ -191,6 +212,7 @@ export class AddComponent implements OnInit {
             });
         });
     } catch (error) {
+      this.isPostQuestion = false;
       console.log(error);
     }
   }
