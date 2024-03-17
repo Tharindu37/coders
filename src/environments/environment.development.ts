@@ -8,4 +8,6 @@ export const environment = {
     appId: '1:683707507834:web:244d79789b0e4e95a447c3',
     measurementId: 'G-02WHJ6S6CM',
   },
+  apiUrl: 'https://coders-api.vercel.app/',
+  localApiUrl: 'http://127.0.0.1:8000/',
 };

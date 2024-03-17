@@ -9,6 +9,7 @@ import firebase from 'firebase/compat/app';
 import { GiveAnswer } from '../model/give-answer';
 import { transition } from '@angular/animations';
 import { Observable, map } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,12 +17,20 @@ export class QuestionService {
   constructor(private http: HttpClient, private firestore: AngularFirestore) {}
 
   generateAnswer(question: string) {
-    return this.http.get(`http://127.0.0.1:8000/answer/${question}`);
+    return this.http.get(`${environment.apiUrl}answer/${question}`);
   }
 
-  generateWrongAnswer(answer: string) {
-    return this.http.get(
-      `http://127.0.0.1:8000/wrong_answer/${encodeURIComponent(answer)}`
+  // generateWrongAnswer(answer: string) {
+  //   return this.http.get(
+  //     `${environment.apiUrl}wrong_answer/${encodeURIComponent(answer)}`
+  //   );
+  // }
+
+  generateWrongAnswer(answer: string): Observable<any> {
+    const requestBody = { answer };
+    return this.http.post<any>(
+      `${environment.apiUrl}wrong_answer`,
+      requestBody
     );
   }
 
