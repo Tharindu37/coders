@@ -25,7 +25,6 @@ export class EditProfileComponent implements OnInit {
     this.authService.getCurrentUser().subscribe((fireUser: any) => {
       this.userService.getUserById(fireUser.uid).subscribe((res) => {
         this.user = res[0] as User;
-        console.log(this.user.displayName);
         this.editProfileForm.get('username')?.setValue(this.user.displayName);
         this.editProfileForm
           .get('description')

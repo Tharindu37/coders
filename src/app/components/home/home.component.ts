@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   questions: Question[] = [];
   posts: Post[] = [];
   marks: Marks | undefined;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.isLoading = true;
     this.getQuestions();
     this.getMarks();
   }
@@ -106,7 +108,10 @@ export class HomeComponent implements OnInit {
   // }
 
   getQuestions() {
-    if (this.finished) return;
+    if (this.finished) {
+      this.isLoading = false;
+      return;
+    }
     this.authService
       .getCurrentUser()
       .pipe(take(1))
@@ -131,7 +136,7 @@ export class HomeComponent implements OnInit {
                     user: user[0] as User,
                     answer: 0,
                   };
-
+                  this.isLoading = false;
                   this.posts.push(post);
                 });
             });

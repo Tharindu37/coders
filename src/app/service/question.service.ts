@@ -140,16 +140,30 @@ export class QuestionService {
           const filteredQuestions = questions.filter((question) =>
             this.isQuestionValid(question, userId)
           );
-          return filteredQuestions.slice(0, batch); // Limit the number of results after filtering
+          const secondFilteredQuestions = filteredQuestions.filter((question) =>
+            this.isMyQuestion(question, userId)
+          );
+          return secondFilteredQuestions.slice(0, batch); // Limit the number of results after filtering
         })
       );
   }
+
+  // private isQuestionValid(question: any, userId: string): boolean {
+  //   if (!question.giveAnswer || question.giveAnswer.length === 0) {
+  //     return true; // If no giveAnswer, include the question
+  //   }
+  //   return !question.giveAnswer.some((answer: any) => answer.userId === userId);
+  // }
 
   private isQuestionValid(question: any, userId: string): boolean {
     if (!question.giveAnswer || question.giveAnswer.length === 0) {
       return true; // If no giveAnswer, include the question
     }
     return !question.giveAnswer.some((answer: any) => answer.userId === userId);
+  }
+
+  private isMyQuestion(question: any, userId: string) {
+    return !(question.userId === userId);
   }
 
   giveAnswer(giveAnswer: GiveAnswer, questionId: string) {

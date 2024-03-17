@@ -140,6 +140,14 @@ export class AddComponent implements OnInit {
     this.code4 = value;
   }
 
+  async shuffleArray(array: Answer[]): Promise<Answer[]> {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
   async addQuestion() {
     this.isPostQuestion = true;
     if (
@@ -150,6 +158,31 @@ export class AddComponent implements OnInit {
       !this.code3 ||
       !this.code4
     ) {
+      this.isPostQuestion = false;
+      Swal.fire({
+        title: 'Question Is Not Complete Error!',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return;
+    }
+
+    if (
+      this.code1 == this.code2 ||
+      this.code1 == this.code3 ||
+      this.code1 == this.code4 ||
+      this.code2 == this.code3 ||
+      this.code2 == this.code4 ||
+      this.code3 == this.code4
+    ) {
+      this.isPostQuestion = false;
+      Swal.fire({
+        title: 'Same Question Include Error!',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2000,
+      });
       return;
     }
 
@@ -176,6 +209,8 @@ export class AddComponent implements OnInit {
           status: false,
         },
       ];
+      // Shuffle the answer array
+      const shuffledAnswer = await this.shuffleArray(answer);
       this.authService
         .getCurrentUser()
         .pipe(take(1))
@@ -187,7 +222,7 @@ export class AddComponent implements OnInit {
             id: '',
             tags: [],
             question: this.question,
-            answer: answer,
+            answer: shuffledAnswer,
             giveAnswer: [],
           };
           this.questionService
