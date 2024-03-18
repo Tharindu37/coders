@@ -124,6 +124,7 @@ export class HomeComponent implements OnInit {
           )
           .pipe(take(1))
           .subscribe((questions: any[]) => {
+            this.isLoading = false;
             // this.questions = this.questions.concat(question as Question[]);
             this.lastKey = questions.slice(-1)[0] as Question;
             questions.forEach((question) => {
@@ -136,7 +137,7 @@ export class HomeComponent implements OnInit {
                     user: user[0] as User,
                     answer: 0,
                   };
-                  this.isLoading = false;
+
                   this.posts.push(post);
                 });
             });
