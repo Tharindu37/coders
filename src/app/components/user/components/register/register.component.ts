@@ -47,7 +47,7 @@ export class RegisterComponent {
     description: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
     profilePic: new FormControl(Validators.required),
-    bannerPic: new FormControl('', Validators.required),
+    bannerPic: new FormControl(''),
   });
 
   async register() {
