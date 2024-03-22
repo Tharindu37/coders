@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import firebase from 'firebase/compat/app';
 import { UserService } from 'src/app/service/user.service';
 import { lastValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,8 @@ export class RegisterComponent {
   bannerPicture: File | undefined;
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   onProfileSelected(event: Event) {
@@ -46,8 +48,8 @@ export class RegisterComponent {
     password: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
-    profilePic: new FormControl(Validators.required),
-    bannerPic: new FormControl(''),
+    profilePic: new FormControl('', Validators.required),
+    bannerPic: new FormControl('', Validators.required),
   });
 
   async register() {
@@ -85,6 +87,7 @@ export class RegisterComponent {
         description: description,
       };
       const saveRes = await this.userService.saveUser(user);
+      this.router.navigate(['/home']);
       Swal.fire({
         title: 'Registation Successful!',
         icon: 'success',
