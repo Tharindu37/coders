@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { AuthService } from 'src/app/service/auth.service';
 import { UserService } from 'src/app/service/user.service';
-import { EditProfileComponent } from '../user/components/edit-profile/edit-profile.component';
+import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 import { Question } from 'src/app/model/question';
 import { QuestionService } from 'src/app/service/question.service';
 import { delay, map, pipe, retryWhen, take, tap } from 'rxjs';

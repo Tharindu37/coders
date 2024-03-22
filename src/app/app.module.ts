@@ -16,12 +16,12 @@ import { RegisterComponent } from './components/user/components/register/registe
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { EditProfileComponent } from './components/user/components/edit-profile/edit-profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CodeEditorModule } from '@ngstack/code-editor';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ProfileComponent } from './components/user/components/profile/profile.component';
+import { ProfileComponent } from './components/profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
