@@ -7,6 +7,7 @@ import { UserService } from 'src/app/service/user.service';
 import firebase from 'firebase/compat/app';
 import Swal from 'sweetalert2';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { Social } from 'src/app/model/social';
 
 @Component({
   selector: 'app-edit-profile',
@@ -34,6 +35,16 @@ export class EditProfileComponent implements OnInit {
         this.editProfileForm
           .get('description')
           ?.setValue(this.user.description);
+        this.editProfileForm
+          .get('facebook')
+          ?.setValue(this.user.accounts[0]?.url);
+        this.editProfileForm
+          .get('github')
+          ?.setValue(this.user.accounts[1]?.url);
+        this.editProfileForm
+          .get('linkedin')
+          ?.setValue(this.user.accounts[2]?.url);
+        this.editProfileForm.get('web')?.setValue(this.user.accounts[3]?.url);
       });
     });
   }
@@ -43,6 +54,10 @@ export class EditProfileComponent implements OnInit {
     description: new FormControl('', Validators.required),
     profilePic: new FormControl(''),
     bannerPic: new FormControl(''),
+    facebook: new FormControl(''),
+    github: new FormControl(''),
+    linkedin: new FormControl(''),
+    web: new FormControl(''),
   });
 
   onProfileSelected(event: Event) {
@@ -113,6 +128,28 @@ export class EditProfileComponent implements OnInit {
       profileUrl = await lastValueFrom(profileUrlPromise);
     }
 
+    const facebook: Social = {
+      name: 'facebook',
+      url: (this.editProfileForm.get('facebook')?.value as string) || '',
+    };
+
+    const github: Social = {
+      name: 'github',
+      url: (this.editProfileForm.get('github')?.value as string) || '',
+    };
+
+    const linkedin: Social = {
+      name: 'linkedin',
+      url: (this.editProfileForm.get('linkedin')?.value as string) || '',
+    };
+
+    const web: Social = {
+      name: 'web',
+      url: (this.editProfileForm.get('web')?.value as string) || '',
+    };
+
+    const accounts: Social[] = [facebook, github, linkedin, web];
+
     // if (this.bannerPicture) {
     //   const bannerUrlPromise = this.userService.uploadPicture(
     //     this.bannerPicture!
@@ -133,50 +170,55 @@ export class EditProfileComponent implements OnInit {
         this.userService
           .getUserById(fireUser.uid)
           .pipe(take(1))
-          .subscribe((res) => {
-            this.user = res[0] as User;
-            const newUser: User = {
-              createdAt: this.user.createdAt,
-              updatedAt: firebase.firestore.Timestamp.now(),
-              userId: this.user.userId,
-              displayName: this.editProfileForm.get('username')
-                ?.value as string,
-              photoURL: profileUrl ? profileUrl : this.user.photoURL,
-              bannerURL: bannerUrl ? bannerUrl : this.user.bannerURL,
-              accounts: this.user.accounts,
-              email: this.user.email,
-              emailVerified: this.user.emailVerified,
-              description: this.editProfileForm.get('description')
-                ?.value as string,
-              id: this.user.id,
-            };
-            this.userService
-              .updateById(this.user.id, newUser)
-              .then((res) => {
-                this.profilePictureEvent = undefined;
-                this.bannerPrictureEvent = undefined;
-                this.isUpdating = false;
-                Swal.fire({
-                  title: 'Update Successful!',
-                  icon: 'success',
-                  showConfirmButton: false,
-                  timer: 1000,
+          .subscribe(
+            (res) => {
+              this.user = res[0] as User;
+              const newUser: User = {
+                createdAt: this.user.createdAt,
+                updatedAt: firebase.firestore.Timestamp.now(),
+                userId: this.user.userId,
+                displayName: this.editProfileForm.get('username')
+                  ?.value as string,
+                photoURL: profileUrl ? profileUrl : this.user.photoURL,
+                bannerURL: bannerUrl ? bannerUrl : this.user.bannerURL,
+                accounts: accounts!,
+                email: this.user.email,
+                emailVerified: this.user.emailVerified,
+                description: this.editProfileForm.get('description')
+                  ?.value as string,
+                id: this.user.id,
+              };
+              this.userService
+                .updateById(this.user.id, newUser)
+                .then((res) => {
+                  this.profilePictureEvent = undefined;
+                  this.bannerPrictureEvent = undefined;
+                  this.isUpdating = false;
+                  Swal.fire({
+                    title: 'Update Successful!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1000,
+                  });
+                })
+                .catch((error: any) => {
+                  this.profilePictureEvent = undefined;
+                  this.bannerPrictureEvent = undefined;
+                  this.isUpdating = false;
+                  console.log(error);
+                  Swal.fire({
+                    title: 'Update Error!',
+                    text: error.meesge,
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000,
+                  });
                 });
-              })
-              .catch((error: any) => {
-                this.profilePictureEvent = undefined;
-                this.bannerPrictureEvent = undefined;
-                this.isUpdating = false;
-                console.log(error);
-                Swal.fire({
-                  title: 'Update Error!',
-                  text: error.meesge,
-                  icon: 'error',
-                  showConfirmButton: false,
-                  timer: 1000,
-                });
-              });
-          });
+            },
+            (error) => {
+              this.isUpdating = false;
+            }
+          );
       });
   }
 }

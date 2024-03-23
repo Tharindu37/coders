@@ -31,7 +31,7 @@
         alt=""
       /> -->
       </div>
-      <div class="flex flex-col items-center px-5">
+      <div class="flex flex-col items-center px-3">
         <div>
           <h1 style="margin-bottom: 0" class="text-2xl font-bold">
             {{ user?.displayName }}
@@ -41,47 +41,89 @@
           {{ user?.description }}
         </p>
       </div>
-      <div class="grid grid-cols-5 pb-3 px-14">
-        <div class="flex items-center justify-center w-12 h-12 cursor-pointer">
+      <div class="flex items-center justify-center gap-1 pb-5">
+        <a
+          *ngIf="
+            user &&
+            user.accounts &&
+            user.accounts.length > 0 &&
+            user.accounts[0].url
+          "
+          href="{{ user.accounts[0].url }}"
+          target="_blank"
+          class="flex items-center justify-center w-12 h-12 cursor-pointer"
+        >
           <img
             width="36"
             height="36"
             src="https://img.icons8.com/color/36/facebook-new.png"
             alt="facebook-new"
           />
-        </div>
-        <div class="flex items-center justify-center w-12 h-12 cursor-pointer">
+        </a>
+        <a
+          *ngIf="
+            user &&
+            user.accounts &&
+            user.accounts.length > 0 &&
+            user.accounts[1].url
+          "
+          target="_blank"
+          href="{{ user.accounts[1].url }}"
+          class="flex items-center justify-center w-12 h-12 cursor-pointer"
+        >
           <img
             width="35"
             height="35"
             src="https://img.icons8.com/ios-glyphs/35/github.png"
             alt="github"
           />
-        </div>
-        <div class="flex items-center justify-center w-12 h-12 cursor-pointer">
+        </a>
+        <a
+          *ngIf="
+            user &&
+            user.accounts &&
+            user.accounts.length > 0 &&
+            user.accounts[2].url
+          "
+          target="_blank"
+          href="{{ user.accounts[2].url }}"
+          class="flex items-center justify-center w-12 h-12 cursor-pointer"
+        >
           <img
             width="35"
             height="35"
             src="https://img.icons8.com/fluency/35/linkedin.png"
             alt="linkedin"
           />
-        </div>
-        <div class="flex items-center justify-center w-12 h-12 cursor-pointer">
+        </a>
+        <!-- <div
+          class="flex items-center justify-center w-12 h-12 cursor-pointer"
+        >
           <img
             width="30"
             height="30"
             src="https://img.icons8.com/ios/30/download-mail.png"
             alt="download-mail"
           />
-        </div>
-        <div class="flex items-center justify-center w-12 h-12 cursor-pointer">
+        </div> -->
+        <a
+          *ngIf="
+            user &&
+            user.accounts &&
+            user.accounts.length > 0 &&
+            user.accounts[3].url
+          "
+          target="_blank"
+          href="{{ user.accounts[3].url }}"
+          class="flex items-center justify-center w-12 h-12 cursor-pointer"
+        >
           <img
             width="30"
             height="30"
             src="https://img.icons8.com/color/35/domain--v1.png"
             alt="domain--v1"
           />
-        </div>
+        </a>
       </div>
       <div
         class="flex justify-center w-full cursor-pointer hover:text-green-600"

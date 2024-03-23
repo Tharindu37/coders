@@ -66,8 +66,6 @@ export class AddComponent implements OnInit {
     }
     this.questionService.generateWrongAnswer(this.code1 as string).subscribe(
       (res: any) => {
-        console.log(res.wrong_answers[0]);
-
         this.model1 = {
           ...this.model1,
           language: this.model.language,
