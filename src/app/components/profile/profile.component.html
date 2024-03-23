@@ -3,11 +3,11 @@
 <div
   class="w-full flex flex-col md:flex-row gap-2 md:gap-5 px-1 py-2 md:px-44 h-[93vh] md:h-[95vh] overflow-auto bg-green-100 pt-2"
 >
-  <div class="md:w-1/4">
+  <div class="md:w-2/5">
     <div
       class="flex flex-col w-full h-auto bg-white border rounded-md shadow-md md:overflow-hidden md:flex-col"
     >
-      <div class="flex w-full h-32 p-1 overflow-hidden rounded-t-md">
+      <div class="flex w-full p-1 overflow-hidden h-44 rounded-t-md">
         <img
           class="w-full rounded-md"
           [src]="user?.bannerURL || '../../../assets/banner.jpg'"
@@ -15,7 +15,7 @@
         />
       </div>
       <div
-        class="self-center w-32 h-32 border rounded-full mt-[-80px] flex overflow-hidden bg-cover bg-center"
+        class="self-center w-44 h-44 border rounded-full mt-[-120px] flex overflow-hidden bg-cover bg-center"
         [style.background-image]="
           'url(' + (user?.photoURL || '../../../assets/profile.png') + ')'
         "
