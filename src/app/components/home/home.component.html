@@ -41,7 +41,7 @@
           {{ user?.description }}
         </p>
       </div>
-      <div class="grid grid-cols-5 px-20 pb-3">
+      <div class="grid grid-cols-5 pb-3 px-14">
         <div class="flex items-center justify-center w-12 h-12 cursor-pointer">
           <img
             width="36"
@@ -156,7 +156,8 @@
       >
         <div class="flex w-full gap-2 p-1">
           <div
-            class="flex w-10 h-10 overflow-hidden bg-center bg-cover border rounded-full"
+            [routerLink]="['/profile', post.user.userId]"
+            class="flex w-10 h-10 overflow-hidden bg-center bg-cover border rounded-full cursor-pointer"
             [style.background-image]="
               'url(' +
               (post.user.photoURL || '../../../assets/profile.png') +

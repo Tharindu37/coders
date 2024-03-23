@@ -9,6 +9,7 @@ import { LoginComponent } from './components/user/components/login/login.compone
 import { RegisterComponent } from './components/user/components/register/register.component';
 import { authGuard } from './guard/auth.guard';
 import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -37,8 +38,13 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'profile',
+    path: 'profile/:id',
     component: ProfileComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'edit-profile',
+    component: EditProfileComponent,
     canActivate: [authGuard],
   },
 ];

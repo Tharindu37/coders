@@ -1,4 +1,4 @@
-<div class="w-full p-1 border-b min-h-64">
+<!-- <div class="w-full p-1 border-b min-h-64">
   <image-cropper
     *ngIf="isSelectProfile"
     [imageChangedEvent]="profilePictureEvent"
@@ -48,13 +48,6 @@
     />
   </div>
   <div class="flex justify-center w-full mb-3">
-    <!-- <input
-          type="text"
-          formControlName="description"
-          id="success"
-          class="bg-green-50 border border-green-500 placeholder-green-700 text-sm rounded-lg block w-full p-2.5"
-          placeholder="Enter your Headline"
-        /> -->
     <textarea
       formControlName="description"
       id="success"
@@ -113,4 +106,206 @@
       Update
     </button>
   </div>
-</form>
+</form> -->
+
+<app-nav-bar></app-nav-bar>
+
+<div
+  class="w-full flex flex-col md:flex-row gap-2 md:gap-5 px-1 py-2 md:px-44 h-[93vh] md:h-[95vh] overflow-auto bg-green-100 pt-2"
+>
+  <div class="md:w-2/5">
+    <div
+      class="flex flex-col w-full h-auto bg-white border rounded-md shadow-md md:overflow-hidden md:flex-col"
+    >
+      <div class="flex w-full p-1 overflow-hidden h-44 rounded-t-md">
+        <img
+          class="w-full rounded-md"
+          [src]="user?.bannerURL || '../../../assets/banner.jpg'"
+          alt=""
+        />
+      </div>
+      <div
+        class="self-center w-44 h-44 border rounded-full mt-[-110px] flex overflow-hidden bg-cover bg-center"
+        [style.background-image]="
+          'url(' + (user?.photoURL || '../../../assets/profile.png') + ')'
+        "
+      ></div>
+      <div class="flex flex-col items-center px-5 mt-1">
+        <div>
+          <h1 style="margin-bottom: 0" class="text-4xl font-bold">
+            {{ user?.displayName }}
+          </h1>
+        </div>
+        <p style="margin-bottom: 0" class="text-[15px] text-center">
+          {{ user?.description }}
+        </p>
+        <div class="grid grid-cols-5 gap-2 pb-5">
+          <div
+            class="flex items-center justify-center w-12 h-12 cursor-pointer"
+          >
+            <img
+              width="36"
+              height="36"
+              src="https://img.icons8.com/color/36/facebook-new.png"
+              alt="facebook-new"
+            />
+          </div>
+          <div
+            class="flex items-center justify-center w-12 h-12 cursor-pointer"
+          >
+            <img
+              width="35"
+              height="35"
+              src="https://img.icons8.com/ios-glyphs/35/github.png"
+              alt="github"
+            />
+          </div>
+          <div
+            class="flex items-center justify-center w-12 h-12 cursor-pointer"
+          >
+            <img
+              width="35"
+              height="35"
+              src="https://img.icons8.com/fluency/35/linkedin.png"
+              alt="linkedin"
+            />
+          </div>
+          <div
+            class="flex items-center justify-center w-12 h-12 cursor-pointer"
+          >
+            <img
+              width="30"
+              height="30"
+              src="https://img.icons8.com/ios/30/download-mail.png"
+              alt="download-mail"
+            />
+          </div>
+          <div
+            class="flex items-center justify-center w-12 h-12 cursor-pointer"
+          >
+            <img
+              width="30"
+              height="30"
+              src="https://img.icons8.com/color/35/domain--v1.png"
+              alt="domain--v1"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1">
+    <div class="h-auto overflow-hidden bg-white rounded-md shadow-md">
+      <!-- <app-edit-profile></app-edit-profile> -->
+      <div class="w-full p-1 border-b min-h-64">
+        <image-cropper
+          *ngIf="isSelectProfile"
+          [imageChangedEvent]="profilePictureEvent"
+          [aspectRatio]="4 / 4"
+          [maintainAspectRatio]="true"
+          [resizeToWidth]="256"
+          format="png"
+          (imageCropped)="cropImg($event)"
+        >
+        </image-cropper>
+        <image-cropper
+          *ngIf="!isSelectProfile"
+          [imageChangedEvent]="bannerPrictureEvent"
+          [aspectRatio]="4 / 1"
+          [maintainAspectRatio]="true"
+          [resizeToWidth]="256"
+          format="png"
+          (imageCropped)="cropBanner($event)"
+        >
+        </image-cropper>
+        <div
+          *ngIf="!profilePictureEvent && !bannerPrictureEvent"
+          class="flex items-center justify-center w-full gap-5 min-h-64"
+        >
+          <img
+            width="100"
+            height="100"
+            src="https://img.icons8.com/ios/100/40C057/barber-scissors.png"
+            alt="barber-scissors"
+          />
+          <h1 class="text-gray-500">Picture Cropper</h1>
+        </div>
+      </div>
+      <form
+        [formGroup]="editProfileForm"
+        (ngSubmit)="updateProfile()"
+        class="flex flex-col items-center w-full h-full p-3 bg-white"
+      >
+        <h2>Update Your Profile Details</h2>
+        <div class="flex justify-center w-full mb-3">
+          <input
+            type="text"
+            formControlName="username"
+            id="success"
+            class="bg-green-50 border border-green-500 placeholder-green-700 text-sm rounded-lg block w-full p-2.5"
+            placeholder="Enter your username"
+          />
+        </div>
+        <div class="flex justify-center w-full mb-3">
+          <textarea
+            formControlName="description"
+            id="success"
+            class="bg-green-50 border border-green-500 placeholder-green-700 text-sm rounded-lg block w-full p-2.5"
+            placeholder="Enter your headline"
+            rows="3"
+            cols="50"
+          ></textarea>
+        </div>
+        <div class="flex justify-center w-full gap-3 mb-3">
+          <div class="flex flex-col justify-center w-full">
+            <label for="profilePic">Select Profile Picture</label>
+            <input
+              type="file"
+              formControlName="profilePic"
+              (change)="onProfileSelected($event)"
+              id="profilePic"
+              class="bg-green-50 border border-green-500 placeholder-green-700 text-sm rounded-lg block w-full p-2.5"
+            />
+          </div>
+          <div class="flex flex-col justify-center w-full">
+            <label for="bannerPic">Select Banner Picture</label>
+            <input
+              type="file"
+              (change)="onBannerSelected($event)"
+              formControlName="bannerPic"
+              id="bannerPic"
+              class="bg-green-50 border border-green-500 placeholder-green-700 text-sm rounded-lg block w-full p-2.5"
+            />
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            [disabled]="editProfileForm.invalid"
+            class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
+          >
+            <svg
+              *ngIf="isUpdating"
+              aria-hidden="true"
+              role="status"
+              class="inline w-4 h-4 text-white animate-spin"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="#E5E7EB"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentColor"
+              />
+            </svg>
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
