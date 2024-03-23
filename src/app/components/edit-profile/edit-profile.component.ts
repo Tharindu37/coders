@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { UserService } from 'src/app/service/user.service';
 import firebase from 'firebase/compat/app';
 import Swal from 'sweetalert2';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,8 +16,12 @@ import Swal from 'sweetalert2';
 export class EditProfileComponent implements OnInit {
   user: User | undefined;
   profilePicture: File | undefined;
+  profilePictureEvent: Event | undefined;
   bannerPicture: File | undefined;
+  bannerPrictureEvent: Event | undefined;
   isUpdating: boolean = false;
+  isSelectProfile: boolean = true;
+
   constructor(
     private authService: AuthService,
     private userService: UserService
@@ -41,24 +46,44 @@ export class EditProfileComponent implements OnInit {
   });
 
   onProfileSelected(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const files = inputElement.files;
+    this.isSelectProfile = true;
+    this.profilePictureEvent = event;
+    // const inputElement = event.target as HTMLInputElement;
+    // const files = inputElement.files;
 
-    if (files && files.length > 0) {
-      const file = files[0] as File;
-      // this.images.push(file)
-      this.profilePicture = file;
-    }
+    // if (files && files.length > 0) {
+    //   const file = files[0] as File;
+    //   // this.images.push(file)
+    //   this.profilePicture = file;
+    // }
   }
   onBannerSelected(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const files = inputElement.files;
+    this.isSelectProfile = false;
+    this.bannerPrictureEvent = event;
+    // const inputElement = event.target as HTMLInputElement;
+    // const files = inputElement.files;
 
-    if (files && files.length > 0) {
-      const file = files[0] as File;
-      // this.images.push(file)
-      this.bannerPicture = file;
-    }
+    // if (files && files.length > 0) {
+    //   const file = files[0] as File;
+    //   // this.images.push(file)
+    //   this.bannerPicture = file;
+    // }
+  }
+
+  cropImg(event: ImageCroppedEvent) {
+    const blob = event.blob;
+    this.profilePicture = new File([blob!], 'crop_profile', {
+      type: 'image/png',
+    });
+    this.editProfileForm.get('profilePic')?.setValue(null);
+  }
+
+  cropBanner(event: ImageCroppedEvent) {
+    const blob = event.blob;
+    this.bannerPicture = new File([blob!], 'crop_profile', {
+      type: 'image/png',
+    });
+    this.editProfileForm.get('bannerPic')?.setValue(null);
   }
 
   async updateProfile() {
@@ -109,7 +134,6 @@ export class EditProfileComponent implements OnInit {
           .pipe(take(1))
           .subscribe((res) => {
             this.user = res[0] as User;
-            console.log(this.user.displayName);
             const newUser: User = {
               createdAt: this.user.createdAt,
               updatedAt: firebase.firestore.Timestamp.now(),

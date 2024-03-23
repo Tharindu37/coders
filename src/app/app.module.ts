@@ -22,6 +22,7 @@ import { CodeEditorModule } from '@ngstack/code-editor';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     CodeEditorModule.forRoot(),
     HighlightModule,
     InfiniteScrollModule,
+    ImageCropperModule,
   ],
   providers: [
     {
