@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
+  isUpdating: boolean = false;
   profilePicture: File | undefined;
   bannerPicture: File | undefined;
   constructor(
@@ -53,6 +54,7 @@ export class RegisterComponent {
   });
 
   async register() {
+    this.isUpdating = true;
     const email = this.registerForm.get('email')?.value as string;
     const password = this.registerForm.get('password')?.value as string;
     try {
@@ -88,6 +90,7 @@ export class RegisterComponent {
       };
       const saveRes = await this.userService.saveUser(user);
       this.router.navigate(['/home']);
+      this.isUpdating = false;
       Swal.fire({
         title: 'Registation Successful!',
         icon: 'success',
@@ -95,6 +98,7 @@ export class RegisterComponent {
         timer: 2000,
       });
     } catch (error: any) {
+      this.isUpdating = false;
       Swal.fire({
         title: 'Registation Error!',
         text: error.meesge,
