@@ -115,10 +115,19 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- <div class="flex-1">
-    <div class="h-auto overflow-hidden bg-white rounded-md shadow-md">
-      <app-edit-profile></app-edit-profile>
+    <div
+      class="flex flex-col items-center w-full p-2 mt-2 bg-white border rounded-md shadow-md"
+    >
+      <div class="flex justify-between w-full">
+        <h5 style="margin-bottom: 0">Correct Answer :</h5>
+        <h5 style="margin-bottom: 0">
+          {{ marks?.correct || 0 }}
+        </h5>
+      </div>
+      <div class="flex justify-between w-full">
+        <h5 style="margin-bottom: 0">Wrong Answer :</h5>
+        <h5 style="margin-bottom: 0">{{ marks?.wrong || 0 }}</h5>
+      </div>
     </div>
-  </div> -->
+  </div>
 </div>
