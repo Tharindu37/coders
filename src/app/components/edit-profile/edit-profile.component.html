@@ -197,40 +197,6 @@
   <div class="flex-1">
     <div class="h-auto overflow-hidden bg-white rounded-md shadow-md">
       <!-- <app-edit-profile></app-edit-profile> -->
-      <div class="w-full p-1 border-b min-h-64">
-        <image-cropper
-          *ngIf="isSelectProfile"
-          [imageChangedEvent]="profilePictureEvent"
-          [aspectRatio]="4 / 4"
-          [maintainAspectRatio]="true"
-          [resizeToWidth]="256"
-          format="png"
-          (imageCropped)="cropImg($event)"
-        >
-        </image-cropper>
-        <image-cropper
-          *ngIf="!isSelectProfile"
-          [imageChangedEvent]="bannerPrictureEvent"
-          [aspectRatio]="4 / 1"
-          [maintainAspectRatio]="true"
-          [resizeToWidth]="256"
-          format="png"
-          (imageCropped)="cropBanner($event)"
-        >
-        </image-cropper>
-        <div
-          *ngIf="!profilePictureEvent && !bannerPrictureEvent"
-          class="flex items-center justify-center w-full gap-5 min-h-64"
-        >
-          <img
-            width="100"
-            height="100"
-            src="https://img.icons8.com/ios/100/40C057/barber-scissors.png"
-            alt="barber-scissors"
-          />
-          <h1 class="text-gray-500">Picture Cropper</h1>
-        </div>
-      </div>
       <form
         [formGroup]="editProfileForm"
         (ngSubmit)="updateProfile()"
@@ -255,6 +221,40 @@
             rows="3"
             cols="50"
           ></textarea>
+        </div>
+        <div class="w-full p-1 my-2 border-t border-b min-h-64">
+          <image-cropper
+            *ngIf="isSelectProfile"
+            [imageChangedEvent]="profilePictureEvent"
+            [aspectRatio]="4 / 4"
+            [maintainAspectRatio]="true"
+            [resizeToWidth]="256"
+            format="png"
+            (imageCropped)="cropImg($event)"
+          >
+          </image-cropper>
+          <image-cropper
+            *ngIf="!isSelectProfile"
+            [imageChangedEvent]="bannerPrictureEvent"
+            [aspectRatio]="4 / 1"
+            [maintainAspectRatio]="true"
+            [resizeToWidth]="256"
+            format="png"
+            (imageCropped)="cropBanner($event)"
+          >
+          </image-cropper>
+          <div
+            *ngIf="!profilePictureEvent && !bannerPrictureEvent"
+            class="flex items-center justify-center w-full gap-5 min-h-64"
+          >
+            <img
+              width="100"
+              height="100"
+              src="https://img.icons8.com/ios/100/40C057/barber-scissors.png"
+              alt="barber-scissors"
+            />
+            <h1 class="text-gray-500">Picture Cropper</h1>
+          </div>
         </div>
         <div class="flex justify-center w-full gap-3 mb-3">
           <div class="flex flex-col justify-center w-full">

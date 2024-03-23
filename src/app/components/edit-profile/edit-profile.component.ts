@@ -88,6 +88,7 @@ export class EditProfileComponent implements OnInit {
 
   async updateProfile() {
     this.isUpdating = true;
+
     // const [profileUrl, bannerUrl] = await Promise.all([
     //   profileUrlPromise,
     //   bannerUrlPromise,
@@ -152,6 +153,8 @@ export class EditProfileComponent implements OnInit {
             this.userService
               .updateById(this.user.id, newUser)
               .then((res) => {
+                this.profilePictureEvent = undefined;
+                this.bannerPrictureEvent = undefined;
                 this.isUpdating = false;
                 Swal.fire({
                   title: 'Update Successful!',
@@ -161,6 +164,8 @@ export class EditProfileComponent implements OnInit {
                 });
               })
               .catch((error: any) => {
+                this.profilePictureEvent = undefined;
+                this.bannerPrictureEvent = undefined;
                 this.isUpdating = false;
                 console.log(error);
                 Swal.fire({
