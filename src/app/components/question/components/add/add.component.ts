@@ -44,13 +44,13 @@ export class AddComponent implements OnInit {
     const question = this.questionForm.get('question')?.value as string;
     this.questionService.generateAnswer(question).subscribe(
       (res: any) => {
+        this.isGenerateAnswer = false;
         const jsonObject = JSON.parse(res.answer.content);
         this.model = {
           ...this.model,
           value: jsonObject.code,
           language: jsonObject.language,
         };
-        this.isGenerateAnswer = false;
       },
       (error) => {
         this.isGenerateAnswer = false;
